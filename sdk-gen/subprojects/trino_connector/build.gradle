@@ -69,4 +69,5 @@ dependencies {
   api project(':' + rootProject.name + '-java-api')
 
   testImplementation group: 'junit', name: 'junit', version: project['junit.version']
+  testImplementation group: 'io.trino', name: 'trino-jdbc', version: '416'
 }

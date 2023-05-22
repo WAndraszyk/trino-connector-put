@@ -194,8 +194,7 @@ subprojects {
         task dockerLogin {
           description = 'Login to the source docker repository.'
           onlyIf {
-            docker.dockerCheck()
-            !gradle.startParameter.offline
+            true
           }
           doLast {
             docker.login(repos.docker.username, repos.docker.password, dockerUrl)
@@ -213,8 +212,7 @@ subprojects {
         }
         task getLatestBaseImageVersion(dependsOn: dockerLogin){
           onlyIf {
-            docker.dockerCheck()
-            !gradle.startParameter.offline
+            true
           }
           doLast {
             ubibaseimageTag = project.properties['image.tag'] ?: ubibaseimageTag
@@ -228,8 +226,7 @@ subprojects {
         ]) {
           description = 'Pull the latest ubi Liberty docker image.'
           onlyIf {
-            docker.dockerCheck()
-            !gradle.startParameter.offline
+            true
           }
           outputs.upToDateWhen {
             docker.imageUpToDate(ubiimageName, ubibaseimageTag)
@@ -241,8 +238,7 @@ subprojects {
         task dockerStop {
           description = 'Stop the personal MicroService Liberty docker container.'
           onlyIf {
-            docker.dockerCheck()
-            !project.hasProperty('isTemplate')
+            true
           }
           doLast {
             def containerId = docker.containerId(microServiceAppName)
@@ -259,8 +255,7 @@ subprojects {
           dependsOn processDistResources
           description = 'Build the MicroService Liberty docker image for ubi.'
           onlyIf {
-            docker.dockerCheck()
-            !project.hasProperty('isTemplate')
+            true
           }
           outputs.upToDateWhen {
             docker.imageUpToDate(microServiceUBIImageName, microServiceImageTag) && project.version != null && project.version != "unspecified" && !project.version.endsWith("-SNAPSHOT")
@@ -375,8 +370,7 @@ subprojects {
         ]) {
           description = 'Start the personal Micro-Service Liberty docker container.'
           onlyIf {
-            docker.dockerCheck()
-            !project.hasProperty('isTemplate')
+            true
           }
           doLast() {
             def unzipDir = file("${buildDir}/tmp/docker")
